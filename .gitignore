@@ -41,3 +41,7 @@ yarn-error.log*
 .turbo
 .turbo-cache
 .idea
+
+# Terraform
+backend.tf
+terraform.tfstate
