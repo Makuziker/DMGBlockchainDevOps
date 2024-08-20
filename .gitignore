@@ -46,3 +46,6 @@ yarn-error.log*
 backend.tf
 terraform.tfstate
 secrets.hcl
+
+# Helm
+iac/manifests/dmgblockchainsolutions/values.yaml
