@@ -9,7 +9,7 @@ locals {
   account_id   = local.account_vars.locals.account_id
 
   team_vars = read_terragrunt_config(find_in_parent_folders("teams.hcl"))
-  team = local.team_vars.locals.team
+  team      = local.team_vars.locals.team
 
   registry_vars    = read_terragrunt_config(find_in_parent_folders("registries.hcl"))
   github_src       = local.registry_vars.locals.github_src
