@@ -26,32 +26,47 @@ dependency "network" {
   config_path = "${get_terragrunt_dir()}/../../common/network"
 }
 
-# Managed worker nodes in private subnets need a NAT Gateway to access ECR?
 inputs = {
   cluster_name    = "dmgblockchain-${local.env_name}"
   cluster_version = "1.30"
+  # "Platform Version": "eks.6"
 
   cluster_endpoint_public_access           = true
   cluster_endpoint_public_access_cidrs     = local.admin_cidrs # Hides my IP address from the public github repo.
   enable_cluster_creator_admin_permissions = true
 
-  cluster_addons = {
-    coredns                = {}
-    eks_pod_identity_agent = {}
-    kube_proxy             = {}
-    vpc_cni                = {}
-  }
+  // TF is not aware of the addons I installed manually.
+  // cluster_addons = {
+    // coredns = {
+    //   addon_version = "v1.11.1-eksbuild.8"
+    // }
+    // eks_pod_identity_agent = {
+    //   addon_version = "v1.18.1-eksbuild.3"
+    // }
+    // kube_proxy = {
+    //   addon_version = "v1.30.0-eksbuild.3"
+    // }
+    // vpc_cni = {
+    //   addon_version = "v1.3.0-eksbuild.1"
+    // }
+  // }
 
   vpc_id     = dependency.network.outputs.vpc_id
   subnet_ids = slice(dependency.network.outputs.private_subnets, 0, 3)
 
+  # AWS recommends creating the cluster BEFORE defining the managed node groups.
+  # Otherwise the managed node groups tend to get stuck.
   eks_managed_node_groups = {
-    standard_worker = {
+    "eks-standard-${local.env_name}" = {
       instance_types = ["t3.small"]
       min_size       = 2
       max_size       = 3
       desired_size   = 2
     }
+  }
+
+  cluster_upgrade_policy = {
+    support_type = "STANDARD"
   }
 
   tags = {

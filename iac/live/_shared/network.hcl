@@ -30,8 +30,8 @@ inputs = {
 
   enable_ipv6          = false
   enable_dns_hostnames = true
-  enable_nat_gateway   = false # TODO: Enable this
-  single_nat_gateway   = true
+  enable_nat_gateway   = true # Managed EKS nodes in private subnets must have a NAT Gateway for connectivity.
+  single_nat_gateway   = true # In production, use multiple NAT gateways for redundancy.
 
   tags = {
     Environment = local.env_name
