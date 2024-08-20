@@ -35,21 +35,28 @@ inputs = {
   cluster_endpoint_public_access_cidrs     = local.admin_cidrs # Hides my IP address from the public github repo.
   enable_cluster_creator_admin_permissions = true
 
-  // TF is not aware of the addons I installed manually.
-  // cluster_addons = {
-    // coredns = {
-    //   addon_version = "v1.11.1-eksbuild.8"
-    // }
-    // eks_pod_identity_agent = {
-    //   addon_version = "v1.18.1-eksbuild.3"
-    // }
-    // kube_proxy = {
-    //   addon_version = "v1.30.0-eksbuild.3"
-    // }
-    // vpc_cni = {
-    //   addon_version = "v1.3.0-eksbuild.1"
-    // }
-  // }
+  cluster_addons = {
+    coredns = {
+      addon_version = "v1.11.1-eksbuild.8"
+    }
+    eks-pod-identity-agent = {
+      most_recent = true
+    }
+    kube-proxy = {
+      addon_version = "v1.30.0-eksbuild.3"
+    }
+    vpc-cni = {
+      most_recent = true
+    }
+    aws-ebs-csi-driver = {
+      most_recent = true
+    }
+  }
+
+  # This policy is required for the EBS CSI driver to work.
+  iam_role_additional_policies = {
+    AmazonEBSCSIDriverPolicy = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
+  }
 
   vpc_id     = dependency.network.outputs.vpc_id
   subnet_ids = slice(dependency.network.outputs.private_subnets, 0, 3)
