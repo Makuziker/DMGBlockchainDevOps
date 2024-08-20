@@ -22,8 +22,9 @@ jobs:
             COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose -f docker-compose.yml build
       - run:
           name: Login to AWS ECR
+          # | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
           command: |
-            aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+            aws ecr get-login-password --region $AWS_DEFAULT_REGION
       - run:
           name: Push Docker images to ECR
           command: |
