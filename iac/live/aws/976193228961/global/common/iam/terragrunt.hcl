@@ -48,7 +48,7 @@ inputs = {
       vars = {
         account_id      = local.account_id
         region_name     = "us-east-1"
-        repository_name = "web"
+        repository_name = "dmgblockchaindevops-web"
       }
     },
     {
@@ -59,7 +59,7 @@ inputs = {
       vars = {
         account_id      = local.account_id
         region_name     = "us-east-1"
-        repository_name = "api"
+        repository_name = "dmgblockchaindevops-api"
       }
     }
   ]
