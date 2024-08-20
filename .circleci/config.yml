@@ -24,9 +24,7 @@ jobs:
           version: 20.10.7
       - run:
           name: Build Docker images
-          command: |
-            docker build -t web ./web
-            docker build -t api ./api
+          command: COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose -f docker-compose.yml build
       - persist_to_workspace:
           root: /workspace
           paths:
@@ -41,14 +39,14 @@ jobs:
       - run:
           name: Login to AWS ECR
           command: |
-            aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 976193228961.dkr.ecr.us-east-1.amazonaws.com
+            aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com
       - run:
           name: Push Docker images to ECR
           command: |
-            docker tag web:latest 976193228961.dkr.ecr.us-east-1.amazonaws.com/web:latest
-            docker tag api:latest 976193228961.dkr.ecr.us-east-1.amazonaws.com/api:latest
-            docker push 976193228961.dkr.ecr.us-east-1.amazonaws.com/web:latest
-            docker push 976193228961.dkr.ecr.us-east-1.amazonaws.com/api:latest
+            docker tag dmgblockchaindevops-web:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/dmgblockchaindevops-web:latest
+            docker tag dmgblockchaindevops-api:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/dmgblockchaindevops-api:latest
+            docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/dmgblockchaindevops-web:latest
+            docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/dmgblockchaindevops-api:latest
 
 workflows:
   version: 2

@@ -31,10 +31,9 @@ inputs = {
   max_image_count     = 10
   scan_images_on_push = true
 
-  # For demonstration purposes, the names are generic and unspecific.
   image_names = [
-    "api",
-    "web"
+    "dmgblockchaindevops-web",
+    "dmgblockchaindevops-api"
   ]
 
   tags = {
