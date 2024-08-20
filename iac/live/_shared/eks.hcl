@@ -53,11 +53,6 @@ inputs = {
     }
   }
 
-  # This policy is required for the EBS CSI driver to work.
-  iam_role_additional_policies = {
-    AmazonEBSCSIDriverPolicy = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
-  }
-
   vpc_id     = dependency.network.outputs.vpc_id
   subnet_ids = slice(dependency.network.outputs.private_subnets, 0, 3)
 
@@ -69,6 +64,11 @@ inputs = {
       min_size       = 2
       max_size       = 3
       desired_size   = 2
+      
+      # This policy is required for the EBS CSI driver to create PVCs.
+      iam_role_additional_policies = {
+        AmazonEBSCSIDriverPolicy = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
+      }
     }
   }
 
