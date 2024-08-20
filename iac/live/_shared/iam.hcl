@@ -16,8 +16,8 @@ locals {
   github_tag_query = local.registry_vars.locals.github_tag_query
 
   # Note: This is a forked repo based on cytopia/terraform-aws-iam, which became incompatible since TF v0.12.
-  #       For a module so important for security, I would recommend maintaining our own fork or clone.
-  source_url = "${local.github_src}/Flaconi/terraform-aws-iam${local.github_tag_query}"
+  #       For a module so important for security, I recommend maintaining our own fork or clone.
+  source_url = "${local.github_src}/Flaconi/terraform-aws-iam-roles${local.github_tag_query}"
 
   policies_dir = "${get_repo_root()}/iac/live/files/iam/policies"
 }

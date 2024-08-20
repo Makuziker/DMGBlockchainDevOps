@@ -8,8 +8,7 @@ include "shared" {
 }
 
 terraform {
-  // source = "${include.shared.locals.source_url}=v7.4.1"
-  source = "https://github.com/Flaconi/terraform-aws-iam-roles?ref=v7.4.1"
+  source = "${include.shared.locals.source_url}=v7.4.1"
 }
 
 locals {
