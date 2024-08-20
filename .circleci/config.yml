@@ -32,8 +32,8 @@ jobs:
       - run:
           name: Push Docker images to ECR
           command: |
-            docker tag dmgblockchaindevops-web:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/dmgblockchaindevops-web:latest
-            docker tag dmgblockchaindevops-api:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/dmgblockchaindevops-api:latest
+            docker tag project-web:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/dmgblockchaindevops-web:latest
+            docker tag project-api:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/dmgblockchaindevops-api:latest
             docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/dmgblockchaindevops-web:latest
             docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/dmgblockchaindevops-api:latest
       
