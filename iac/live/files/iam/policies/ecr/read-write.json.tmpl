@@ -17,10 +17,14 @@
         "ecr:DeleteRepository",
         "ecr:BatchDeleteImage",
         "ecr:SetRepositoryPolicy",
-        "ecr:DeleteRepositoryPolicy",
-        "ecr:GetAuthorizationToken"
+        "ecr:DeleteRepositoryPolicy"
       ],
       "Resource": "arn:aws:ecr:${region_name}:${account_id}:repository/${repository_name}"
+    },
+    {
+      "Effect": "Allow",
+      "Action": "ecr:GetAuthorizationToken",
+      "Resource": "*"
     }
   ]
 }
