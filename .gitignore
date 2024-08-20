@@ -45,3 +45,4 @@ yarn-error.log*
 # Terraform
 backend.tf
 terraform.tfstate
+secrets.hcl
