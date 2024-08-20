@@ -1,4 +1,6 @@
 version: 2.1
+orbs:
+  aws-cli: circleci/aws-cli@4.2.3
 
 executors:
   docker-executor:
@@ -7,14 +9,17 @@ executors:
 
 jobs:
   build_and_push_docker:
-    executor: docker-executor
+    executor: aws-cli/default
     steps:
       - checkout
       - setup_remote_docker:
           version: 20.10.7
+      - aws-cli/setup:
+        profile_name: default
       - run:
           name: Build Docker images
-          command: COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose -f docker-compose.yml build
+          command: |
+            COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose -f docker-compose.yml build
       - run:
           name: Login to AWS ECR
           command: |
