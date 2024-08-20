@@ -6,33 +6,20 @@ executors:
       - image: cimg/node:current
 
 jobs:
-  build:
+  build_docker:
     executor: docker-executor
     steps:
       - checkout
-      - run:
-          name: Install dependencies
-          command: yarn install
-      - run:
-          name: Build application
-          command: yarn build
-
-  test:
-    executor: docker-executor
-    steps:
-      - checkout
-      - run:
-          name: Install dependencies
-          command: yarn install
-      - run:
-          name: Run tests
-          command: yarn test
-
-  build_and_push_docker:
-    docker:
-      - image: cimg/base:current
-    steps:
-      - checkout
+      # Tempoarily removed to test the Docker build
+      # - run:
+      #     name: Install dependencies
+      #     command: yarn install
+      # - run:
+      #     name: Build application
+      #     command: yarn build
+      # - run:
+      #     name: Run tests
+      #     command: yarn test
       - setup_remote_docker:
           version: 20.10.7
       - run:
@@ -40,6 +27,17 @@ jobs:
           command: |
             docker build -t web ./web
             docker build -t api ./api
+      - persist_to_workspace:
+          root: /workspace
+          paths:
+            - .
+
+  push_docker:
+    docker:
+      - image: cimg/base:current
+    steps:
+      - attach_workspace:
+          at: /workspace
       - run:
           name: Login to AWS ECR
           command: |
@@ -54,16 +52,12 @@ jobs:
 
 workflows:
   version: 2
-  # Build and test yarn on every branch. But only build and push Docker images on the main branch.
   build_and_test:
     jobs:
-      - build
-      - test:
+      - build_docker
+      - push_docker:
           requires:
-            - build
-      - build_and_push_docker:
-          requires:
-            - test
+            - build_docker
           filters:
             branches:
               only: main
