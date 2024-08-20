@@ -6,36 +6,15 @@ executors:
       - image: cimg/node:current
 
 jobs:
-  build_docker:
+  build_and_push_docker:
     executor: docker-executor
     steps:
       - checkout
-      # Tempoarily removed to test the Docker build
-      # - run:
-      #     name: Install dependencies
-      #     command: yarn install
-      # - run:
-      #     name: Build application
-      #     command: yarn build
-      # - run:
-      #     name: Run tests
-      #     command: yarn test
       - setup_remote_docker:
           version: 20.10.7
       - run:
           name: Build Docker images
           command: COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose -f docker-compose.yml build
-      - persist_to_workspace:
-          root: /workspace
-          paths:
-            - .
-
-  push_docker:
-    docker:
-      - image: cimg/base:current
-    steps:
-      - attach_workspace:
-          at: /workspace
       - run:
           name: Login to AWS ECR
           command: |
@@ -47,15 +26,13 @@ jobs:
             docker tag dmgblockchaindevops-api:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/dmgblockchaindevops-api:latest
             docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/dmgblockchaindevops-web:latest
             docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/dmgblockchaindevops-api:latest
+      
 
 workflows:
   version: 2
-  build_and_test:
+  dmgblockchain-monorepo:
     jobs:
-      - build_docker
-      - push_docker:
-          requires:
-            - build_docker
+      - build_and_push_docker:
           filters:
             branches:
               only: main
