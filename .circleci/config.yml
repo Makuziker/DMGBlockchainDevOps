@@ -29,13 +29,16 @@ jobs:
           name: Login to AWS ECR
           command: |
             aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+      # Tagging with a shorthand commit SHA is a basic strategy to make images unique and immutable.
+      # For implementing automatic SemVer, GitVersion (https://gitversion.net) is an excellent tool.
       - run:
           name: Push Docker images to ECR
           command: |
-            docker tag project-web:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/dmgblockchaindevops-web:latest
-            docker tag project-api:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/dmgblockchaindevops-api:latest
-            docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/dmgblockchaindevops-web:latest
-            docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/dmgblockchaindevops-api:latest
+            SHORT_SHA=$(echo $CIRCLE_SHA1 | cut -c 1-7)
+            docker tag project-web:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/dmgblockchaindevops-web:$SHORT_SHA
+            docker tag project-api:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/dmgblockchaindevops-api:$SHORT_SHA
+            docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/dmgblockchaindevops-web:$SHORT_SHA
+            docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/dmgblockchaindevops-api:$SHORT_SHA
       
 
 workflows:
