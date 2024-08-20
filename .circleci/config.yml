@@ -57,7 +57,7 @@ workflows:
   # Build and test yarn on every branch. But only build and push Docker images on the main branch.
   build_and_test:
     jobs:
-      - build:
+      - build
       - test:
           requires:
             - build
