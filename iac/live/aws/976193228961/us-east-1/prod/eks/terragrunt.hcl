@@ -15,3 +15,8 @@ terraform {
   # This allows us to pin the TF module and independently upgrade on a per-environment basis.
   source = "${include.shared.locals.source_url}=20.23.0"
 }
+
+# We can override the inputs from the shared eks.hcl like so:
+# inputs = {
+#  cluster_name = "foo-bar-cluster"
+# }
