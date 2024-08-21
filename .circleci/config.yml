@@ -15,6 +15,10 @@ jobs:
       - run:
           name: Install dependencies
           command: yarn install
+      # Note: The unit tests fail for this project:
+      # logger:test:   ● Test suite failed to run
+      # logger:test:     TypeError: Jest: a transform must export a `process` function.
+      # The jobs run in parallel, and I purposely let build_and_push_docker run anyways to not block my DevOps testing.
       - run:
           name: Run tests
           command: yarn test
