@@ -16,7 +16,7 @@ image:
   repository: 976193228961.dkr.ecr.us-east-1.amazonaws.com/dmgblockchaindevops-api
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "latest"
+  tag: "7b90a9e"
 
 imagePullSecrets: []
 nameOverride: ""
