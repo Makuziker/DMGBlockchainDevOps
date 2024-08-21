@@ -28,6 +28,15 @@ kubectl exec <release>-mining-manager-web-7bfb85cd7-d29rv -- printenv | grep NEX
 NEXT_PUBLIC_API_HOST=http://<release>-mining-manager-api:3001/api/v1
 ```
 
+I also tried injecting my own .env file into the web container.
+
+```bash
+k exec dmg-mining-manager-web-65fffd59c-dnvmg -- cat /app/.env
+NEXT_PUBLIC_API_HOST=http://dmg-mining-manager-api:3001/api/v1
+```
+
+This did not solve the issue. I figure at this point it has to do with a bug in the docker build process - something about how the container ignores runtime variables after building.
+
 ## Terragrunt
 
 Terragrunt is a thin wrapper for Terraform/OpenTofu. It is highly effective at organizing Terraform with a consistent, DRY, hierarchy.

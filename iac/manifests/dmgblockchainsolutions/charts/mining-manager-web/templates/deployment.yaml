@@ -40,11 +40,6 @@ spec:
             - name: http
               containerPort: {{ .Values.service.port }}
               protocol: TCP
-          env:
-            # Reference the API service endpoint. Todo: refactor hostname and port
-            # Though this env var is set, the web app still uses a hardcoded value in .env (http://192.168.2.36:3001)
-            - name: NEXT_PUBLIC_API_HOST
-              value: "http://{{ .Release.Name }}-mining-manager-api:3001/api/v1"
           livenessProbe:
             {{- toYaml .Values.livenessProbe | nindent 12 }}
           readinessProbe:
