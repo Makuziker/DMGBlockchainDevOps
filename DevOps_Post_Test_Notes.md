@@ -126,11 +126,20 @@ NAME                        READY   AGE
 statefulset.apps/postgres   1/1     92s
 ```
 
+In addition to Helm, this manifest was applied for the metrics-server. It is good for simple point-in-time metrics, such as for resource requests/limits, but not for historical analytics.
+
+```bash
+kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+```
+
 ## Helm
 
 The Helm charts are located at `iac/manifests`. It consists of one parent chart and two subcharts for the respective `web` and `api` projects. The parent chart can override the configuration below, which is useful for SecOps practices.
 
 ```bash
+cd iac/manifests/dmgblockchainsolutions
+helm install dmg --namespace mining-manager --create-namespace .
+
 dmgblockchainsolutions
 ├── Chart.yaml
 ├── charts
