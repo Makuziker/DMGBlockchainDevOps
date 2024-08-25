@@ -6,7 +6,7 @@ This document provides an overview of the DevOps tools and processes used in my 
 
 ## Public ELB Domain
 
-The public ELB domain for our application is: http://ac6e58149b59c47aa9e94a0ab260dfff-203657434.us-east-1.elb.amazonaws.com:3000
+The public ELB domain for our application is: http://a160248fba9924075ae95782b0c8b98f-1097358795.us-east-1.elb.amazonaws.com:3000
 
 ## Known Issues
 
