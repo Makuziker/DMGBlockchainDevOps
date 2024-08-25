@@ -60,11 +60,11 @@ inputs = {
   # Otherwise the managed node groups tend to get stuck.
   eks_managed_node_groups = {
     "eks-standard-${local.env_name}" = {
-      instance_types = ["t3.small"]
+      instance_types = ["t3.medium"]
       min_size       = 2
       max_size       = 3
-      desired_size   = 2
-      
+      desired_size   = 2 # warning: changing this did not update EKS.
+
       # This policy is required for the EBS CSI driver to create PVCs.
       iam_role_additional_policies = {
         AmazonEBSCSIDriverPolicy = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
